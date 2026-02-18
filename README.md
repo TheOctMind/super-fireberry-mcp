@@ -1,89 +1,80 @@
 # 🦾 Super Fireberry MCP
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Model Context Protocol](https://img.shields.io/badge/MCP-Protocol-blue?style=flat-square)](https://modelcontextprotocol.io)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+<p align="center">
+  <img src="https://img.shields.io/badge/Fireberry-CRM-orange?style=for-the-badge&logo=fireberry" alt="Fireberry Logo" />
+  <img src="https://img.shields.io/badge/Model_Context_Protocol-SDK-blue?style=for-the-badge" alt="MCP Logo" />
+</p>
 
-A production-grade Model Context Protocol (MCP) server that provides a high-performance bridge between LLMs and **Fireberry CRM**. Engineered for deep integration, this server enables natural language control over complex CRM workflows, financial data, and system metadata.
+<p align="center">
+  <a href="https://github.com/TheOctMind/super-fireberry-mcp/actions"><img src="https://img.shields.io/github/actions/workflow/status/TheOctMind/super-fireberry-mcp/build.yml?branch=master&style=flat-square" alt="Build Status" /></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-green.svg?style=flat-square" alt="License" /></a>
+  <a href="https://github.com/prettier/prettier"><img src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square" alt="Prettier" /></a>
+  <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.0+-blue?style=flat-square&logo=typescript" alt="TypeScript" /></a>
+</p>
 
 ---
 
-## 🏛️ Architecture & Project Structure
+## 🌟 Overview
 
-The project follows a modular, service-oriented architecture designed for scalability and maintainability.
+**Super Fireberry MCP** is a production-ready implementation of the Model Context Protocol (MCP) specifically engineered for **Fireberry CRM**. It provides a high-fidelity interface for Large Language Models (LLMs) to interact with CRM data using natural language, going far beyond basic record management.
 
-```text
-super-fireberry-mcp/
-├── build/                 # Compiled JavaScript (Distribution)
-├── src/                   # Source Code
-│   ├── services/          # Core Business Logic
-│   │   └── api.ts         # Axios client, interceptors & normalization
-│   ├── types/             # TypeScript interfaces & API schemas
-│   │   └── fireberry.ts   # CRM-specific data types
-│   ├── tools/             # Tool definitions (Planned for next expansion)
-│   └── index.ts           # Entry point: MCP server configuration & routing
-├── tsconfig.json          # TypeScript configuration
-├── package.json           # Dependencies & Scripts
-└── README.md              # Documentation
+This server acts as an intelligent middleware, abstracting the complexities of the Fireberry REST API into a set of powerful, self-documenting tools.
+
+## 🏛️ Architecture
+
+The project is built on a modular service-oriented architecture, ensuring high performance and type safety.
+
+```mermaid
+graph TD
+    A[LLM / Claude] -->|MCP Protocol| B[Super Fireberry Server]
+    B -->|Normalization Layer| C[API Service]
+    C -->|Authenticated REST| D[Fireberry CRM API]
+    D -->|JSON Response| C
+    C -->|Typed Objects| B
+    B -->|Structured Output| A
 ```
 
-### Core Design Principles
-- **Abstraction Layer**: Decouples human-readable entity names (e.g., `Account`) from internal API codes (`1`).
-- **Stateless Operation**: Designed to run as a lightweight stdio transport.
-- **Robust Error Handling**: Comprehensive catching of API limits, permission errors, and validation issues.
+### Key Components
+- **Normalization Service**: Maps human-readable entity names to internal system codes.
+- **Query Engine**: Translates natural language intent into structured Fireberry Query API payloads.
+- **Batch Handler**: Manages high-volume data operations with efficient error recovery.
 
----
+## 🚀 Advanced Features
 
-## 🚀 Key Features
+- **⚡ Full Metadata Reflection**: Zero-config support for custom objects and fields.
+- **🔍 Power Query**: Advanced filtering (logical AND/OR), sorting, and deep pagination.
+- **💰 Financial Intelligence**: Native support for Invoices, Receipts, and Transaction Items.
+- **📦 Batch Processing**: High-throughput creation and updates for enterprise data loads.
+- **🔗 Relationship Intelligence**: Navigate complex record hierarchies effortlessly.
 
-- **Dynamic Discovery**: Automatically reflects changes in your Fireberry schema (custom objects/fields).
-- **Advanced Querying**: Native support for the Fireberry Query API with logical filtering.
-- **Bulk Processing**: Integrated Batch API for high-throughput data operations.
-- **Financial Integration**: Ready for Invoices, Receipts, and Orders.
-- **Smart Normalization**: Seamlessly handles object mapping and name casing.
+## 🛠️ Toolset
 
----
-
-## 🛠️ Available Tools
-
-| Tool | Parameters | Description |
+| Tool | Capability | Typical Use Case |
 | :--- | :--- | :--- |
-| `get_objects` | `none` | List all available CRM modules and system objects. |
-| `get_fields` | `objectType` | Fetch detailed field metadata for a specific object. |
-| `query` | `objectType`, `query` | Execute complex searches with filters and sorting. |
-| `manage_record` | `action`, `objectType`, `recordId?`, `data?` | Create, update, or delete CRM records. |
-| `get_related_records`| `objectType`, `recordId`, `relatedObjectType`| Retrieve linked records across entities. |
+| `get_objects` | System Discovery | "What modules are available?" |
+| `get_fields` | Schema Inspection | "What are the fields for 'Projects'?" |
+| `query` | Advanced Search | "Find all leads from LinkedIn with status 'New'." |
+| `manage_record` | Full CRUD | "Update the status of Account #105 to 'Active'." |
+| `get_related_records`| Hierarchy Traversal | "Get all tasks linked to this contact." |
 
----
-
-## 📦 Getting Started
+## 📦 Installation & Setup
 
 ### Prerequisites
-- Node.js (v18+)
-- A Fireberry API Access Token
+- Node.js **v18.0.0** or higher
+- A valid Fireberry API Access Token
 
-### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/TheOctMind/super-fireberry-mcp.git
-   cd super-fireberry-mcp
-   ```
-2. Install dependencies and build:
-   ```bash
-   npm install
-   npm run build
-   ```
-
-### Configuration
-Set the following environment variable:
-`FIREBERRY_TOKEN_ID` = `your_fireberry_api_token`
-
----
+### Local Setup
+```bash
+git clone https://github.com/TheOctMind/super-fireberry-mcp.git
+cd super-fireberry-mcp
+npm install
+npm run build
+```
 
 ## 🔧 Integration
 
-### Claude Desktop
-Add the following to your `claude_desktop_config.json`:
+### Claude Desktop Configuration
+Add the following entry to your `claude_desktop_config.json`:
 
 ```json
 {
@@ -92,29 +83,28 @@ Add the following to your `claude_desktop_config.json`:
       "command": "node",
       "args": ["/absolute/path/to/super-fireberry-mcp/build/index.js"],
       "env": {
-        "FIREBERRY_TOKEN_ID": "YOUR_TOKEN_HERE"
+        "FIREBERRY_TOKEN_ID": "YOUR_API_TOKEN"
       }
     }
   }
 }
 ```
 
----
+## 🗺️ Roadmap
 
-## 🔍 Troubleshooting
+- [ ] **v1.1**: Direct file attachment streaming.
+- [ ] **v1.2**: Webhook integration for real-time notifications.
+- [ ] **v2.0**: Native support for Fireberry Workflow execution.
 
-| Issue | Potential Cause | Solution |
-| :--- | :--- | :--- |
-| `401 Unauthorized` | Invalid API Token | Verify your `FIREBERRY_TOKEN_ID` in the config. |
-| `403 Forbidden` | Insufficient Permissions | Ensure the API user has read/write access to the specific module (e.g., Invoices). |
-| `400 Bad Request` | Missing Required Fields | Use `get_fields` to verify the mandatory fields for the object you are managing. |
-| `404 Not Found` | Invalid Object Name | Use `get_objects` to check the correct `systemname` or `logicalName`. |
+## 🤝 Contributing
 
----
-
-## 🛡️ Security
-- **Token Safety**: Authentication is handled via secure environment variables.
-- **Input Validation**: All tool arguments are validated using Zod schemas.
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for more details.
 
 ## 📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+<p align="center">
+  Built with ❤️ for the Fireberry Ecosystem
+</p>
