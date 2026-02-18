@@ -1,8 +1,8 @@
-# 🦾 Super Fireberry MCP
+# Super Fireberry MCP
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Fireberry-CRM-orange?style=for-the-badge&logo=fireberry" alt="Fireberry Logo" />
-  <img src="https://img.shields.io/badge/Model_Context_Protocol-SDK-blue?style=for-the-badge" alt="MCP Logo" />
+  <img src="https://img.shields.io/badge/Fireberry-CRM-orange?style=flat-square&logo=fireberry" alt="Fireberry Logo" />
+  <img src="https://img.shields.io/badge/Model_Context_Protocol-SDK-blue?style=flat-square" alt="MCP Logo" />
 </p>
 
 <p align="center">
@@ -14,13 +14,13 @@
 
 ---
 
-## 🌟 Overview
+## Overview
 
-**Super Fireberry MCP** is a production-ready implementation of the Model Context Protocol (MCP) specifically engineered for **Fireberry CRM**. It provides a high-fidelity interface for Large Language Models (LLMs) to interact with CRM data using natural language, going far beyond basic record management.
+Super Fireberry MCP is a production-grade implementation of the Model Context Protocol (MCP) specifically engineered for Fireberry CRM. It provides a high-fidelity interface for Large Language Models (LLMs) to interact with CRM data using natural language.
 
 This server acts as an intelligent middleware, abstracting the complexities of the Fireberry REST API into a set of powerful, self-documenting tools.
 
-## 🏛️ Architecture
+## Architecture
 
 The project is built on a modular service-oriented architecture, ensuring high performance and type safety.
 
@@ -39,15 +39,15 @@ graph TD
 - **Query Engine**: Translates natural language intent into structured Fireberry Query API payloads.
 - **Batch Handler**: Manages high-volume data operations with efficient error recovery.
 
-## 🚀 Advanced Features
+## Features
 
-- **⚡ Full Metadata Reflection**: Zero-config support for custom objects and fields.
-- **🔍 Power Query**: Advanced filtering (logical AND/OR), sorting, and deep pagination.
-- **💰 Financial Intelligence**: Native support for Invoices, Receipts, and Transaction Items.
-- **📦 Batch Processing**: High-throughput creation and updates for enterprise data loads.
-- **🔗 Relationship Intelligence**: Navigate complex record hierarchies effortlessly.
+- **Full Metadata Reflection**: Zero-config support for custom objects and fields.
+- **Power Query**: Advanced filtering (logical AND/OR), sorting, and deep pagination.
+- **Financial Integration**: Native support for Invoices, Receipts, and Transaction Items.
+- **Batch Processing**: High-throughput creation and updates for enterprise data loads.
+- **Relationship Intelligence**: Navigate complex record hierarchies effortlessly.
 
-## 🛠️ Toolset
+## Toolset
 
 | Tool | Capability | Typical Use Case |
 | :--- | :--- | :--- |
@@ -57,10 +57,10 @@ graph TD
 | `manage_record` | Full CRUD | "Update the status of Account #105 to 'Active'." |
 | `get_related_records`| Hierarchy Traversal | "Get all tasks linked to this contact." |
 
-## 📦 Installation & Setup
+## Installation & Setup
 
 ### Prerequisites
-- Node.js **v18.0.0** or higher
+- Node.js v18.0.0 or higher
 - A valid Fireberry API Access Token
 
 ### Local Setup
@@ -71,7 +71,7 @@ npm install
 npm run build
 ```
 
-## 🔧 Integration
+## Integration
 
 ### Claude Desktop Configuration
 Add the following entry to your `claude_desktop_config.json`:
@@ -90,21 +90,21 @@ Add the following entry to your `claude_desktop_config.json`:
 }
 ```
 
-## 🗺️ Roadmap
+## Roadmap
 
-- [ ] **v1.1**: Direct file attachment streaming.
-- [ ] **v1.2**: Webhook integration for real-time notifications.
-- [ ] **v2.0**: Native support for Fireberry Workflow execution.
+- **v1.1**: Direct file attachment streaming.
+- **v1.2**: Webhook integration for real-time notifications.
+- **v2.0**: Native support for Fireberry Workflow execution.
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for more details.
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 <p align="center">
-  Built with ❤️ for the Fireberry Ecosystem
+  Built for the Fireberry Ecosystem
 </p>
