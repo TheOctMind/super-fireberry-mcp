@@ -6,7 +6,7 @@ export const createApiClient = (tokenId: string) => {
   return axios.create({
     baseURL: FIREBERRY_API_URL,
     headers: {
-      "tokenid": tokenId,
+      tokenid: tokenId,
       "Content-Type": "application/json",
     },
   });
@@ -18,15 +18,15 @@ export const createApiClient = (tokenId: string) => {
  */
 export const normalizeObjectType = (type: string): string => {
   const mapping: Record<string, string> = {
-    "account": "1",
-    "contact": "2",
-    "lead": "3",
-    "opportunity": "4",
-    "ticket": "117",
-    "invoice": "10",
-    "product": "11",
-    "project": "101",
-    "task": "9"
+    account: "1",
+    contact: "2",
+    lead: "3",
+    opportunity: "4",
+    ticket: "117",
+    invoice: "10",
+    product: "11",
+    project: "101",
+    task: "9",
   };
   return mapping[type.toLowerCase()] || type;
 };

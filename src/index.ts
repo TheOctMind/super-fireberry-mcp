@@ -24,7 +24,7 @@ const server = new Server(
     capabilities: {
       tools: {},
     },
-  }
+  },
 );
 
 server.setRequestHandler(ListToolsRequestSchema, async () => {
@@ -60,7 +60,8 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "manage_record",
-        description: "Perform CRUD operations (Create, Update, Delete) on any record.",
+        description:
+          "Perform CRUD operations (Create, Update, Delete) on any record.",
         inputSchema: {
           type: "object",
           properties: {
@@ -96,43 +97,60 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     switch (name) {
       case "get_objects": {
         const response = await apiClient.get("/v3/metadata/objects");
-        return { content: [{ type: "text", text: JSON.stringify(response.data) }] };
+        return {
+          content: [{ type: "text", text: JSON.stringify(response.data) }],
+        };
       }
 
       case "get_fields": {
         const { objectType } = args as { objectType: string };
         const type = normalizeObjectType(objectType);
         const response = await apiClient.get(`/v3/metadata/fields/${type}`);
-        return { content: [{ type: "text", text: JSON.stringify(response.data) }] };
+        return {
+          content: [{ type: "text", text: JSON.stringify(response.data) }],
+        };
       }
 
       case "query": {
-        const { objectType, query } = args as { objectType: string, query: any };
+        const { objectType, query } = args as {
+          objectType: string;
+          query: any;
+        };
         const type = normalizeObjectType(objectType);
         // Fireberry Query API expects objecttype in the body, not the URL.
-        const response = await apiClient.post('/query', {
+        const response = await apiClient.post("/query", {
           ...query,
-          objecttype: parseInt(type) || type
+          objecttype: parseInt(type) || type,
         });
-        return { content: [{ type: "text", text: JSON.stringify(response.data) }] };
+        return {
+          content: [{ type: "text", text: JSON.stringify(response.data) }],
+        };
       }
 
       case "manage_record": {
         const { action, objectType, recordId, data } = args as any;
         const type = normalizeObjectType(objectType);
         let response;
-        if (action === "create") response = await apiClient.post(`/record/${type}`, data);
-        else if (action === "update") response = await apiClient.put(`/record/${type}/${recordId}`, data);
+        if (action === "create")
+          response = await apiClient.post(`/record/${type}`, data);
+        else if (action === "update")
+          response = await apiClient.put(`/record/${type}/${recordId}`, data);
         else response = await apiClient.delete(`/record/${type}/${recordId}`);
-        return { content: [{ type: "text", text: JSON.stringify(response.data) }] };
+        return {
+          content: [{ type: "text", text: JSON.stringify(response.data) }],
+        };
       }
 
       case "get_related_records": {
         const { objectType, recordId, relatedObjectType } = args as any;
         const type = normalizeObjectType(objectType);
         const relType = normalizeObjectType(relatedObjectType);
-        const response = await apiClient.get(`/record/related/${type}/${recordId}/${relType}`);
-        return { content: [{ type: "text", text: JSON.stringify(response.data) }] };
+        const response = await apiClient.get(
+          `/record/related/${type}/${recordId}/${relType}`,
+        );
+        return {
+          content: [{ type: "text", text: JSON.stringify(response.data) }],
+        };
       }
 
       default:
@@ -141,7 +159,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   } catch (error: any) {
     return {
       isError: true,
-      content: [{ type: "text", text: error.response?.data?.message || error.message }],
+      content: [
+        { type: "text", text: error.response?.data?.message || error.message },
+      ],
     };
   }
 });
