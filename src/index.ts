@@ -109,7 +109,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       case "query": {
         const { objectType, query } = args as { objectType: string, query: any };
         const type = normalizeObjectType(objectType);
-        const response = await apiClient.post(`/query/${type}`, query);
+        // Fireberry Query API expects objecttype in the body, not the URL.
+        const response = await apiClient.post('/query', {
+          ...query,
+          objecttype: parseInt(type) || type
+        });
         return { content: [{ type: "text", text: JSON.stringify(response.data) }] };
       }
 
