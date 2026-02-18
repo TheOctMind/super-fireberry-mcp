@@ -74,8 +74,46 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         },
       },
       {
-        name: "batch_create",
-        description: "Create multiple records in a single batch operation",
+        name: "get_record",
+        description: "Get a single record by its ID",
+        inputSchema: {
+          type: "object",
+          properties: {
+            objectType: { type: "string" },
+            recordId: { type: "string" },
+          },
+          required: ["objectType", "recordId"],
+        },
+      },
+      {
+        name: "get_all_records",
+        description: "Get all records of a specific type (paginated)",
+        inputSchema: {
+          type: "object",
+          properties: {
+            objectType: { type: "string" },
+            pageSize: { type: "number", default: 50 },
+            pageNumber: { type: "number", default: 1 },
+          },
+          required: ["objectType"],
+        },
+      },
+      {
+        name: "get_related_records",
+        description: "Get records related to a specific record",
+        inputSchema: {
+          type: "object",
+          properties: {
+            objectType: { type: "string" },
+            recordId: { type: "string" },
+            relatedObjectType: { type: "string" },
+          },
+          required: ["objectType", "recordId", "relatedObjectType"],
+        },
+      },
+      {
+        name: "batch_update",
+        description: "Update multiple records in a single batch operation",
         inputSchema: {
           type: "object",
           properties: {
@@ -83,6 +121,18 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             records: { type: "array", items: { type: "object" } },
           },
           required: ["objectType", "records"],
+        },
+      },
+      {
+        name: "batch_delete",
+        description: "Delete multiple records in a single batch operation",
+        inputSchema: {
+          type: "object",
+          properties: {
+            objectType: { type: "string" },
+            recordIds: { type: "array", items: { type: "string" } },
+          },
+          required: ["objectType", "recordIds"],
         },
       },
       {
@@ -125,9 +175,41 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return { content: [{ type: "text", text: JSON.stringify(response.data) }] };
       }
 
+      case "get_record": {
+        const { objectType, recordId } = args as { objectType: string, recordId: string };
+        const response = await apiClient.get(`/record/${objectType}/${recordId}`);
+        return { content: [{ type: "text", text: JSON.stringify(response.data) }] };
+      }
+
+      case "get_all_records": {
+        const { objectType, pageSize, pageNumber } = args as { objectType: string, pageSize?: number, pageNumber?: number };
+        const response = await apiClient.get(`/record/${objectType}`, {
+          params: { page_size: pageSize, page_number: pageNumber }
+        });
+        return { content: [{ type: "text", text: JSON.stringify(response.data) }] };
+      }
+
+      case "get_related_records": {
+        const { objectType, recordId, relatedObjectType } = args as { objectType: string, recordId: string, relatedObjectType: string };
+        const response = await apiClient.get(`/record/related/${objectType}/${recordId}/${relatedObjectType}`);
+        return { content: [{ type: "text", text: JSON.stringify(response.data) }] };
+      }
+
       case "batch_create": {
         const { objectType, records } = args as { objectType: string, records: any[] };
         const response = await apiClient.post(`/v3/batch/${objectType}`, { records });
+        return { content: [{ type: "text", text: JSON.stringify(response.data) }] };
+      }
+
+      case "batch_update": {
+        const { objectType, records } = args as { objectType: string, records: any[] };
+        const response = await apiClient.put(`/v3/batch/${objectType}`, { records });
+        return { content: [{ type: "text", text: JSON.stringify(response.data) }] };
+      }
+
+      case "batch_delete": {
+        const { objectType, recordIds } = args as { objectType: string, recordIds: string[] };
+        const response = await apiClient.delete(`/v3/batch/${objectType}`, { data: { ids: recordIds } });
         return { content: [{ type: "text", text: JSON.stringify(response.data) }] };
       }
 
