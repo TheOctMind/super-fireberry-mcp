@@ -109,13 +109,13 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   try {
     switch (name) {
       case "get_objects": {
-        const response = await apiClient.get("/metadata/objects");
+        const response = await apiClient.get("/v3/metadata/objects");
         return { content: [{ type: "text", text: JSON.stringify(response.data) }] };
       }
 
       case "get_fields": {
         const { objectType } = args as { objectType: string };
-        const response = await apiClient.get(`/metadata/fields/${objectType}`);
+        const response = await apiClient.get(`/v3/metadata/fields/${objectType}`);
         return { content: [{ type: "text", text: JSON.stringify(response.data) }] };
       }
 
