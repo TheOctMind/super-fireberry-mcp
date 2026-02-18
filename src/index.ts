@@ -124,15 +124,41 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         },
       },
       {
-        name: "batch_delete",
-        description: "Delete multiple records in a single batch operation",
+        name: "get_picklist_values",
+        description: "Get all available values for a specific picklist field",
         inputSchema: {
           type: "object",
           properties: {
             objectType: { type: "string" },
-            recordIds: { type: "array", items: { type: "string" } },
+            fieldName: { type: "string" },
           },
-          required: ["objectType", "recordIds"],
+          required: ["objectType", "fieldName"],
+        },
+      },
+      {
+        name: "upload_file",
+        description: "Upload a file and link it to a record",
+        inputSchema: {
+          type: "object",
+          properties: {
+            objectType: { type: "string" },
+            recordId: { type: "string" },
+            fileName: { type: "string" },
+            fileContentBase64: { type: "string", description: "Base64 encoded file content" },
+          },
+          required: ["objectType", "recordId", "fileName", "fileContentBase64"],
+        },
+      },
+      {
+        name: "get_financial_items",
+        description: "Get items associated with an invoice, order, or receipt",
+        inputSchema: {
+          type: "object",
+          properties: {
+            parentObjectType: { type: "string", enum: ["invoice", "order", "receipt", "invoicecredit", "invoicedelivery", "invoicedraft", "reciptinvoice"] },
+            parentId: { type: "string" },
+          },
+          required: ["parentObjectType", "parentId"],
         },
       },
       {
@@ -210,6 +236,43 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       case "batch_delete": {
         const { objectType, recordIds } = args as { objectType: string, recordIds: string[] };
         const response = await apiClient.delete(`/v3/batch/${objectType}`, { data: { ids: recordIds } });
+        return { content: [{ type: "text", text: JSON.stringify(response.data) }] };
+      }
+
+      case "get_picklist_values": {
+        const { objectType, fieldName } = args as { objectType: string, fieldName: string };
+        const response = await apiClient.get(`/v3/metadata/picklist/${objectType}/${fieldName}`);
+        return { content: [{ type: "text", text: JSON.stringify(response.data) }] };
+      }
+
+      case "upload_file": {
+        const { objectType, recordId, fileName, fileContentBase64 } = args as { 
+          objectType: string, 
+          recordId: string, 
+          fileName: string, 
+          fileContentBase64: string 
+        };
+        const response = await apiClient.post(`/files/${objectType}/${recordId}`, {
+          file: fileContentBase64,
+          filename: fileName
+        });
+        return { content: [{ type: "text", text: JSON.stringify(response.data) }] };
+      }
+
+      case "get_financial_items": {
+        const { parentObjectType, parentId } = args as { parentObjectType: string, parentId: string };
+        // Map types to specific endpoints based on docs
+        const endpointMap: Record<string, string> = {
+          invoice: "invoiceitems",
+          order: "orderitems",
+          receipt: "receiptitems",
+          invoicecredit: "invoicecredititems",
+          invoicedelivery: "invoicedeliveryitems",
+          invoicedraft: "invoicedraftitems",
+          reciptinvoice: "reciptinvoiceitems"
+        };
+        const endpoint = endpointMap[parentObjectType];
+        const response = await apiClient.get(`/record/${endpoint}/${parentId}`);
         return { content: [{ type: "text", text: JSON.stringify(response.data) }] };
       }
 
