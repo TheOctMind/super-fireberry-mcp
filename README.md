@@ -101,6 +101,17 @@ Add the following to your `claude_desktop_config.json`:
 
 ---
 
+## 🔍 Troubleshooting
+
+| Issue | Potential Cause | Solution |
+| :--- | :--- | :--- |
+| `401 Unauthorized` | Invalid API Token | Verify your `FIREBERRY_TOKEN_ID` in the config. |
+| `403 Forbidden` | Insufficient Permissions | Ensure the API user has read/write access to the specific module (e.g., Invoices). |
+| `400 Bad Request` | Missing Required Fields | Use `get_fields` to verify the mandatory fields for the object you are managing. |
+| `404 Not Found` | Invalid Object Name | Use `get_objects` to check the correct `systemname` or `logicalName`. |
+
+---
+
 ## 🛡️ Security
 - **Token Safety**: Authentication is handled via secure environment variables.
 - **Input Validation**: All tool arguments are validated using Zod schemas.

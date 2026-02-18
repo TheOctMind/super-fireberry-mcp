@@ -32,28 +32,43 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     tools: [
       {
         name: "get_objects",
-        description: "Discover all available CRM modules and custom objects.",
+        description:
+          "Discover all available CRM modules and custom objects. Use this first to understand the system structure.",
         inputSchema: { type: "object", properties: {} },
       },
       {
         name: "get_fields",
-        description: "Retrieve detailed field definitions for any object.",
+        description:
+          "Retrieve detailed field definitions for any object. Essential before creating or updating records to know which fields exist.",
         inputSchema: {
           type: "object",
           properties: {
-            objectType: { type: "string" },
+            objectType: {
+              type: "string",
+              description:
+                "The object name or type code (e.g., 'Account', 'Contact', '1')",
+            },
           },
           required: ["objectType"],
         },
       },
       {
         name: "query",
-        description: "Execute complex search queries with logical filters.",
+        description:
+          "Execute complex search queries with logical filters. Supports pageNumber, pageSize, and filter strings (e.g., 'accountname contains \"test\"').",
         inputSchema: {
           type: "object",
           properties: {
             objectType: { type: "string" },
-            query: { type: "object" },
+            query: {
+              type: "object",
+              properties: {
+                pageNumber: { type: "number" },
+                pageSize: { type: "number" },
+                filter: { type: "string" },
+                orderby: { type: "string" },
+              },
+            },
           },
           required: ["objectType", "query"],
         },
@@ -61,7 +76,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       {
         name: "manage_record",
         description:
-          "Perform CRUD operations (Create, Update, Delete) on any record.",
+          "Create, Update, or Delete CRM records. For 'update', recordId is mandatory. For 'create', include the data object with field values.",
         inputSchema: {
           type: "object",
           properties: {
@@ -75,7 +90,8 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "get_related_records",
-        description: "Fetch records linked to a specific entity.",
+        description:
+          "Fetch records linked to a specific entity. Useful for traversing relationships like Contacts under an Account.",
         inputSchema: {
           type: "object",
           properties: {
