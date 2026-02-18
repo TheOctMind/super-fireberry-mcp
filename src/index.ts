@@ -197,19 +197,19 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
       case "query": {
         const { objectType, query } = args as { objectType: string, query: any };
-        const response = await apiClient.post(`/record/query/${objectType}`, query);
+        const response = await apiClient.post(`/record/query/${objectType.toLowerCase()}`, query);
         return { content: [{ type: "text", text: JSON.stringify(response.data) }] };
       }
 
       case "get_record": {
         const { objectType, recordId } = args as { objectType: string, recordId: string };
-        const response = await apiClient.get(`/record/${objectType}/${recordId}`);
+        const response = await apiClient.get(`/record/${objectType.toLowerCase()}/${recordId}`);
         return { content: [{ type: "text", text: JSON.stringify(response.data) }] };
       }
 
       case "get_all_records": {
         const { objectType, pageSize, pageNumber } = args as { objectType: string, pageSize?: number, pageNumber?: number };
-        const response = await apiClient.get(`/record/${objectType}`, {
+        const response = await apiClient.get(`/record/${objectType.toLowerCase()}`, {
           params: { page_size: pageSize, page_number: pageNumber }
         });
         return { content: [{ type: "text", text: JSON.stringify(response.data) }] };
@@ -217,7 +217,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
       case "get_related_records": {
         const { objectType, recordId, relatedObjectType } = args as { objectType: string, recordId: string, relatedObjectType: string };
-        const response = await apiClient.get(`/record/related/${objectType}/${recordId}/${relatedObjectType}`);
+        const response = await apiClient.get(`/record/related/${objectType.toLowerCase()}/${recordId}/${relatedObjectType.toLowerCase()}`);
         return { content: [{ type: "text", text: JSON.stringify(response.data) }] };
       }
 
@@ -241,7 +241,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
       case "get_picklist_values": {
         const { objectType, fieldName } = args as { objectType: string, fieldName: string };
-        const response = await apiClient.get(`/v3/metadata/picklist/${objectType}/${fieldName}`);
+        const response = await apiClient.get(`/v3/metadata/picklist/${objectType}/${fieldName.toLowerCase()}`);
         return { content: [{ type: "text", text: JSON.stringify(response.data) }] };
       }
 
